@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Code Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>AI Code Assistant</h1>
+    <form action="{{ url_for('process') }}" method="POST">
+        <label for="code">Code:</label><br>
+        <textarea id="code" name="code" rows="10" cols="50"></textarea><br>
+        <label for="task">Task:</label><br>
+        <select id="task" name="task">
+            <option value="generate_documentation">Generate Documentation</option>
+            <option value="suggest_improvements">Suggest Improvements</option>
+            <option value="generate_code_snippet">Generate Code Snippet</option>
+            <option value="improve_code_structure_and_naming">Improve Code Structure and Naming</option>
+            <option value="suggest_better_libraries">Suggest Better Libraries</option>
+            <option value="complete_function">Complete Function</option>
+        </select><br>
+        <label for="instruction">Instruction (optional):</label><br>
+        <textarea id="instruction" name="instruction" rows="2" cols="50"></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
