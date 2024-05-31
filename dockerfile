@@ -22,8 +22,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Load environment variables from .env file
-RUN pip install python-dotenv
-COPY .env .env
+# RUN pip install python-dotenv
+# COPY .env .env
 
 # Expose the port Flask runs on
 EXPOSE 5000
