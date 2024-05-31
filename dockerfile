@@ -22,7 +22,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Load environment variables from .env file
-# This requires the `python-dotenv` package
 RUN pip install python-dotenv
 COPY .env .env
 

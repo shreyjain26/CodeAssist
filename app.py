@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request
-from werkzeug.utils import secure_filename
-import os
-from cohereapi import (
+from gemini import (
     generate_documentation,
     suggest_improvements,
     generate_code_snippet,
@@ -9,26 +7,22 @@ from cohereapi import (
     suggest_better_libraries,
     complete_function
 )
+from utils import markdown_to_html
 import logging
-
-
-if not os.path.exists('logs'):
-    os.makedirs('logs')
-
-
-logging.basicConfig(filename='logs/ai_code_assistant.log', level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-
+import os
 
 app = Flask(__name__)
 
+# Configure logging
+if not os.path.exists('logs'):
+    os.makedirs('logs')
 
-app.config['UPLOAD_FOLDER'] = 'uploads'
+logging.basicConfig(filename='logs/ai_code_assistant.log', level=logging.INFO,
+                    format='%(asctime)s %(levelname)s %(name)s %(message)s')
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/process', methods=['POST'])
 def process():
@@ -56,13 +50,16 @@ def process():
             logging.error(f"Invalid task selected: {task}")
 
         logging.info(f"Task completed successfully - Task: {task}")
+        
+        result = markdown_to_html(result)
+        logging.info(f"Task completed successfully - Task: {task}")
 
     except Exception as e:
         result = f"An error occurred: {str(e)}"
         logging.error(f"Error processing task: {str(e)}")
 
-    return render_template('result.html', result=result)
 
+    return render_template('result.html', result=result)
 
 if __name__ == '__main__':
     app.run(debug=True)
