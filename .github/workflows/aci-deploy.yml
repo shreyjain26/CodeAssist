@@ -18,16 +18,12 @@ jobs:
 
       - name: Log in to Azure Container Registry
         run: |
-          echo "${{ secrets.AZURE_CONTAINER_REGISTRY_CREDENTIALS }}" > acr_credentials.json
-          export REGISTRY=$(jq -r '.registry' acr_credentials.json)
-          export USERNAME=$(jq -r '.username' acr_credentials.json)
-          export PASSWORD=$(jq -r '.password' acr_credentials.json)
-          echo $PASSWORD | docker login $REGISTRY -u $USERNAME --password-stdin
+          echo ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }} | docker login ${{ secrets.AZURE_CONTAINER_REGISTRY }} -u ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} --password-stdin
 
       - name: Build and push Docker image
         run: |
-          docker build -t $REGISTRY/your-app-name:latest .
-          docker push $REGISTRY/your-app-name:latest
+          docker build -t ${{ secrets.AZURE_CONTAINER_REGISTRY }}/your-app-name:latest .
+          docker push ${{ secrets.AZURE_CONTAINER_REGISTRY }}/your-app-name:latest
 
       - name: Azure CLI Login
         uses: azure/login@v1

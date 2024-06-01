@@ -16,7 +16,7 @@ genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 
-def call_gemini_api(prompt, max_tokens=100, temperature=0.5):
+def call_gemini_api(prompt, max_tokens=500, temperature=0.5):
     response = model.generate_content(
         contents=prompt,
         # stream=True,
@@ -30,7 +30,7 @@ def call_gemini_api(prompt, max_tokens=100, temperature=0.5):
 def generate_documentation(code):
     """Generate documentation for the given code."""
     prompt = f"Generate documentation for the following code:\n\n{code}"
-    return call_gemini_api(prompt, 200)
+    return call_gemini_api(prompt, 1000)
 
 def suggest_improvements(code):
     """Suggest improvements for the given code."""
@@ -50,9 +50,9 @@ def improve_code_structure_and_naming(code):
 def suggest_better_libraries(code):
     """Suggest better libraries/alternatives for the given code."""
     prompt = f"Suggest better libraries/alternatives for the following code:\n\n{code}"
-    return call_gemini_api(prompt, 150, 0.4)
+    return call_gemini_api(prompt, 700, 0.4)
 
 def complete_function(code, instruction):
     """Complete the function based on the given instruction."""
     prompt = f"Complete the following function based on the instruction:\n\nCode:\n{code}\n\nInstruction:\n{instruction}"
-    return call_gemini_api(prompt, 200, 0)
+    return call_gemini_api(prompt, temperature=0)
